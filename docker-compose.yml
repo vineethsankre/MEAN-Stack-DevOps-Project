@@ -10,8 +10,7 @@ services:
       - mongo-data:/data/db
 
   backend:
-    build:
-      context: ./backend
+    image: vineethsankre/mean-project-backend:latest
     container_name: backend
     ports:
       - '8080:8080'
