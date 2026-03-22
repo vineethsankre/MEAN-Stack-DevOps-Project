@@ -29,7 +29,6 @@ services:
       dockerfile: Dockerfile
     container_name: mean-frontend
     restart: unless-stopped
-    # ❌ remove ports
     environment:
       - API_URL=http://backend:8080
     depends_on:
