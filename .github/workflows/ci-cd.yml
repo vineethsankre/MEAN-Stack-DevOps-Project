@@ -51,7 +51,7 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           port: 22
           script: |
-            cd ~/mean-app
-            docker compose pull
-            docker compose up -d
+            cd ~/MEAN-Stack-DevOps-Project
+            docker-compose pull
+            docker-compose up -d
             docker system prune -f
