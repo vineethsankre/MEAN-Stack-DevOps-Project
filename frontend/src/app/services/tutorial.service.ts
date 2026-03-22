@@ -3,7 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Tutorial } from '../models/tutorial.model';
 
-const baseUrl = 'http://localhost:8080/api/tutorials';
+// Use runtime config if available, fallback to relative path
+declare global {
+  interface Window {
+    env?: {
+      apiUrl?: string;
+    };
+  }
+}
+
+const baseUrl = (window as any).env?.apiUrl || '/api/tutorials';
 
 @Injectable({
   providedIn: 'root'
