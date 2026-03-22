@@ -134,15 +134,3 @@ Open:
 http://<your-vm-ip>
 
 ---
-
-## 📸 Screenshots to Add
-- CI/CD pipeline success
-- Docker Hub images
-- EC2 instance
-- Application UI
-
----
-
-## 💼 Resume Line
-
-Designed and implemented CI/CD pipeline for containerized MEAN stack using Docker, GitHub Actions, and AWS EC2.
