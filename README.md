@@ -1,27 +1,148 @@
-In this DevOps task, you need to build and deploy a full-stack CRUD application using the MEAN stack (MongoDB, Express, Angular 15, and Node.js). The backend will be developed with Node.js and Express to provide REST APIs, connecting to a MongoDB database. The frontend will be an Angular application utilizing HTTPClient for communication.  
+# 🚀 MEAN Stack DevOps Deployment (Step-by-Step Guide)
 
-The application will manage a collection of tutorials, where each tutorial includes an ID, title, description, and published status. Users will be able to create, retrieve, update, and delete tutorials. Additionally, a search box will allow users to find tutorials by title.
+## 🎯 Overview
+This project demonstrates end-to-end deployment of a MEAN stack application using Docker, Nginx, CI/CD, and AWS EC2.
 
-## Project setup
+---
 
-### Node.js Server
+## 🧱 Step 1: Clone Repository
+```bash
+git clone https://github.com/<your-username>/<repo>.git
+cd <repo>
+```
 
-cd backend
+---
 
-npm install
+## 🐳 Step 2: Build & Run Locally
+```bash
+docker compose up --build
+```
 
-You can update the MongoDB credentials by modifying the `db.config.js` file located in `app/config/`.
+Access:
+http://localhost
 
-Run `node server.js`
+---
 
-### Angular Client
+## 🛠️ Step 3: Docker Hub Setup
 
-cd frontend
+### Login
+```bash
+docker login
+```
 
-npm install
+### Tag Images
+```bash
+docker tag backend <your-username>/mean-backend:latest
+docker tag frontend <your-username>/mean-frontend:latest
+```
 
-Run `ng serve --port 8081`
+### Push Images
+```bash
+docker push <your-username>/mean-backend:latest
+docker push <your-username>/mean-frontend:latest
+```
 
-You can modify the `src/app/services/tutorial.service.ts` file to adjust how the frontend interacts with the backend.
+---
 
-Navigate to `http://localhost:8081/`
+## ☁️ Step 4: Setup EC2 VM
+
+### Install Docker
+```bash
+sudo apt update
+sudo apt install docker.io -y
+sudo usermod -aG docker ubuntu
+```
+
+### Clone Repo
+```bash
+git clone https://github.com/<your-username>/<repo>.git
+cd <repo>
+```
+
+---
+
+## 🔄 Step 5: Configure docker-compose.yml
+
+Use Docker Hub images:
+```yaml
+backend:
+  image: <your-username>/mean-backend:latest
+frontend:
+  image: <your-username>/mean-frontend:latest
+```
+
+---
+
+## 🌐 Step 6: Setup Nginx
+
+Create nginx/nginx.conf:
+
+```nginx
+events {}
+
+http {
+  server {
+    listen 80;
+
+    location / {
+      proxy_pass http://frontend:80;
+    }
+
+    location /api/ {
+      proxy_pass http://backend:8080/;
+    }
+  }
+}
+```
+
+---
+
+## 🚀 Step 7: Run on VM
+```bash
+docker compose up -d
+```
+
+---
+
+## 🔄 Step 8: CI/CD (GitHub Actions)
+
+Workflow:
+- Build Docker images
+- Push to Docker Hub
+- SSH into VM
+- Pull & restart containers
+
+---
+
+## 🔐 Required Secrets
+
+- DOCKER_HUB_USERNAME
+- DOCKER_HUB_TOKEN
+- VM_HOST
+- VM_USER
+- VM_SSH_KEY
+
+---
+
+## ✅ Step 9: Verify
+
+```bash
+docker ps
+```
+
+Open:
+http://<your-vm-ip>
+
+---
+
+## 📸 Screenshots to Add
+- CI/CD pipeline success
+- Docker Hub images
+- EC2 instance
+- Application UI
+
+---
+
+## 💼 Resume Line
+
+Designed and implemented CI/CD pipeline for containerized MEAN stack using Docker, GitHub Actions, and AWS EC2.
